@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.Subsystem;
 public class driveTrain {
     public double x, y, r;
 
-    public double[] robotOriented(double gamepad1_left_x, double gamepad1_left_y, double gamepad1_right_x, double gamepad1_right_y) {
+    public double[] robotOriented(double gamepad1_left_x, double gamepad1_left_y, double gamepad1_right_x) {
         x = gamepad1_left_x;
         y = gamepad1_left_y;
         r = gamepad1_right_x;
