@@ -33,6 +33,9 @@ public class main extends LinearOpMode {
         rightUp.setPower(0);
         rightDown.setPower(0);
 
+        waitForStart();
+
+
         while (opModeIsActive()) {
             double left_gamepad_x = gamepad1.left_stick_x;
             double left_gamepad_y = gamepad1.left_stick_y;

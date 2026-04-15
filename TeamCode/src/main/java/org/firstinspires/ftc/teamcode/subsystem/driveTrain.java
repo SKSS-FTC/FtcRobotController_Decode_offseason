@@ -6,10 +6,10 @@ public class driveTrain {
         double y = gamepad1_left_y;
         double r = gamepad1_right_x;
 
-        double leftUp = -x + y - r;
-        double leftDown = -x - y - r;
-        double rightUp = x + y - r;
-        double rightDown = x - y - r;
+        double leftUp = x - y - r;
+        double leftDown = x + y - r;
+        double rightUp = -x - y - r;
+        double rightDown = -x + y - r;
 
         return new double[]{leftUp, leftDown, rightUp, rightDown};
 
