@@ -18,10 +18,10 @@ public class main extends LinearOpMode {
         rightUp = hardwareMap.get(DcMotor.class, "rightUp");
         rightDown = hardwareMap.get(DcMotor.class, "rightDown");
 
-        leftUp.setDirection(DcMotor.Direction.REVERSE);
-        leftDown.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftUp.setDirection(DcMotor.Direction.FORWARD);
+        leftDown.setDirection(DcMotorSimple.Direction.FORWARD);
         rightUp.setDirection(DcMotorSimple.Direction.REVERSE);
-        rightDown.setDirection(DcMotorSimple.Direction.FORWARD);
+        rightDown.setDirection(DcMotorSimple.Direction.REVERSE);
 
         leftUp.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftDown.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

@@ -5,9 +5,7 @@ import static java.lang.Double.min;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -19,41 +17,41 @@ import java.util.Arrays;
 
 @TeleOp
 public class driveMotorLocalizer extends LinearOpMode {
-    private DcMotorEx LF, RF, LD, RD;
+    private DcMotorEx leftUp, rightUp, leftDown, rightDown;
     private final double radius = 0.0375; // in meter
     private final double LX = 0.16; // in meter
     private final double LY = 0.175;//in meter
     private double pastTime = 0;
-    private ElapsedTime timer;
-    private boolean enableDrive = false;
+    private ElapsedTime timer = new ElapsedTime();
+    private boolean enableDrive = true;
     private double[] currentPosition = {0, 0, 0};
 
     @Override
     public void runOpMode() {
-        RD = hardwareMap.get(DcMotorEx.class, "RD");
-        RF = hardwareMap.get(DcMotorEx.class, "RF");
-        LD = hardwareMap.get(DcMotorEx.class, "LD");
-        LF = hardwareMap.get(DcMotorEx.class, "LF");
+        leftUp = hardwareMap.get(DcMotorEx.class, "leftUp");
+        leftDown = hardwareMap.get(DcMotorEx.class, "leftDown");
+        rightUp = hardwareMap.get(DcMotorEx.class, "rightUp");
+        rightDown = hardwareMap.get(DcMotorEx.class, "rightDown");
 
-        LF.setDirection(DcMotorSimple.Direction.REVERSE);
-        RF.setDirection(DcMotorSimple.Direction.FORWARD);
-        LD.setDirection(DcMotorSimple.Direction.REVERSE);
-        RD.setDirection(DcMotorSimple.Direction.FORWARD);
+        leftUp.setDirection(DcMotorEx.Direction.REVERSE);
+        rightUp.setDirection(DcMotorEx.Direction.FORWARD);
+        leftDown.setDirection(DcMotorEx.Direction.REVERSE);
+        rightDown.setDirection(DcMotorEx.Direction.FORWARD);
 
-        LF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        RF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        LD.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        RD.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        leftUp.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
+        rightUp.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
+        leftDown.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
+        rightDown.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
 
-        LF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        RF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        LD.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        RD.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftUp.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        rightUp.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        leftDown.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        rightDown.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
 
-        LF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        RF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        LD.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        RD.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftUp.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        rightUp.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        leftDown.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        rightDown.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         waitForStart();
         timer.reset();
         while (opModeIsActive()) {
@@ -61,22 +59,22 @@ public class driveMotorLocalizer extends LinearOpMode {
                 double x = gamepad1.left_stick_x;
                 double y = gamepad1.left_stick_y;
                 double rotation = gamepad1.right_stick_x;
-                LF.setPower(min(1, max(-1, x - y - rotation)));
-                RF.setPower(min(1, max(-1, x + y + rotation)));
-                LD.setPower(min(1, max(-1, x + y - rotation)));
-                RD.setPower(min(1, max(-1, x - y + rotation)));
+                leftUp.setPower(min(1, max(-1, -x + y - rotation)));
+                rightUp.setPower(min(1, max(-1, x + y + rotation)));
+                leftDown.setPower(min(1, max(-1, x + y - rotation)));
+                rightDown.setPower(min(1, max(-1, -x + y + rotation)));
             } else {
-                LF.setPower(0);
-                RF.setPower(0);
-                LD.setPower(0);
-                RD.setPower(0);
+                leftUp.setPower(0);
+                rightUp.setPower(0);
+                leftDown.setPower(0);
+                rightUp.setPower(0);
             }
             if (gamepad1.cross){
                 enableDrive = false;
             }else if (gamepad1.circle){
                 enableDrive = true;
             }
-            double[] angularVelocity = {LF.getVelocity(AngleUnit.RADIANS), RF.getVelocity(AngleUnit.RADIANS), LD.getVelocity(AngleUnit.RADIANS), RD.getVelocity(AngleUnit.RADIANS)};
+            double[] angularVelocity = {leftUp.getVelocity(AngleUnit.RADIANS), rightUp.getVelocity(AngleUnit.RADIANS), leftDown.getVelocity(AngleUnit.RADIANS), rightDown.getVelocity(AngleUnit.RADIANS)};
             double currentTime = timer.seconds();
             double deltaTime = currentTime - pastTime;
             pastTime = currentTime;
