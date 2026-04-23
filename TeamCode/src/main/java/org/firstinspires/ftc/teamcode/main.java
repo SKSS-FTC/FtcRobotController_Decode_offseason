@@ -5,6 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import org.firstinspires.ftc.robotcore.external.Func;
 import org.firstinspires.ftc.teamcode.subsystem.driveTrain;
 
 @TeleOp
@@ -40,6 +42,12 @@ public class main extends LinearOpMode {
 
         telemetry.addData("this is the true one","1");
         telemetry.update();
+        telemetry.addLine()
+                .addData("yaw", new Func<String>() {
+                            @Override public String value() {
+                                return formatAngle(angles.angleUnit, angles.firstAngle);
+                            }
+                        })
 
         waitForStart();
 
