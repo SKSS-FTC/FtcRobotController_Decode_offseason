@@ -8,6 +8,7 @@ public class driveTrain {
         double x = gamepad1_left_x;
         double y = gamepad1_left_y;
         double r = 0;
+
         if (!isFirstRun){
             pastYaw = yaw;
             isFirstRun = true;
